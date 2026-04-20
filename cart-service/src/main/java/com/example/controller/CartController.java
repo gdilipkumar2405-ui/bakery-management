@@ -17,7 +17,7 @@ public class CartController
     public String addToCart(@RequestBody AddToCartRequest request)
     {
         cartService.addToCart(request);
-        return "item added to cart.";
+        return "item added to cart AFTER PUSHING.";
     }
 
     @GetMapping("/{userId}")
