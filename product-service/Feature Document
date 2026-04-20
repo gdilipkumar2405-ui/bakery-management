@@ -1,0 +1,62 @@
+========================================
+SERVICE: PRODUCT SERVICE
+========================================
+
+PURPOSE:
+Manages bakery products (cakes), pricing, availability, and caching.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Manage product catalog (5 cake flavors)
+- Provide product listing APIs
+- Cache product data using Redis
+- Reduce database load
+
+----------------------------------------
+FEATURES IMPLEMENTED:
+----------------------------------------
+
+1. FIXED PRODUCT CATALOG
+- Chocolate
+- Vanilla
+- Red Velvet
+- Black Forest
+- Butterscotch
+
+2. PRODUCT FETCH APIs
+- Get all products
+- Get product by ID
+
+3. REDIS CACHING
+- Cache product list
+- Cache individual product
+- Reduce DB hits
+
+4. CACHE INVALIDATION
+- When product updated → clear cache
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: product
+- id
+- name
+- price
+- description
+- available
+
+----------------------------------------
+TECH STACK:
+----------------------------------------
+- Spring Boot
+- JPA + MySQL
+- Redis
+- Lombok
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Product Service manages bakery items and uses Redis caching
+to improve performance and reduce database load.

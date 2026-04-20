@@ -1,0 +1,35 @@
+========================================
+SERVICE: NOTIFICATION SERVICE
+========================================
+
+PURPOSE:
+Handles sending notifications for order updates, payments, etc.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Listen to Kafka events
+- Send notifications (email/SMS - simulated)
+- Log notifications
+
+----------------------------------------
+EVENTS HANDLED:
+----------------------------------------
+- payment-success
+- payment-failed
+- order-created
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: notification
+- id
+- message
+- type
+- created_at
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Notification Service consumes Kafka events and sends async notifications.

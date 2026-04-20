@@ -1,0 +1,111 @@
+========================================
+SERVICE: AUTH SERVICE
+========================================
+
+PURPOSE:
+Handles authentication and authorization using JWT-based stateless security.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- User Registration
+- User Login
+- Password Encryption (BCrypt)
+- JWT Token Generation
+- Role Management (USER / ADMIN)
+
+----------------------------------------
+FEATURES IMPLEMENTED:
+----------------------------------------
+
+1. USER REGISTRATION
+- Accepts name, email, password
+- Encrypts password using BCrypt
+- Stores user in DB
+- Assigns default role: USER
+
+2. USER LOGIN
+- Validates email and password
+- Uses CustomUserDetailsService
+- Generates JWT token on success
+
+3. JWT TOKEN GENERATION
+- Subject: email
+- Claims: role
+- Expiry: configurable
+- Signed using secret key
+
+4. ROLE MANAGEMENT
+- Enum-based roles: USER, ADMIN
+- Used for authorization
+
+5. CUSTOM USER DETAILS SERVICE
+- Fetches user from database
+- Converts UserEntity → Spring Security User
+
+6. PASSWORD SECURITY
+- BCrypt hashing
+- Secure password comparison
+
+----------------------------------------
+API CONTRACTS:
+----------------------------------------
+
+POST /auth/register
+Request:
+- name
+- email
+- password
+
+POST /auth/login
+Request:
+- email
+- password
+
+Response:
+- token (JWT)
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: users
+- id
+- name
+- email (unique)
+- password
+- role
+
+----------------------------------------
+SECURITY DESIGN:
+----------------------------------------
+- Stateless authentication
+- No session storage
+- JWT-based access control
+
+----------------------------------------
+TECH STACK:
+----------------------------------------
+- Spring Boot 3.5.13
+- Spring Security
+- JPA + MySQL
+- JWT (jjwt 0.11.5)
+
+----------------------------------------
+ERROR HANDLING:
+----------------------------------------
+- Invalid credentials → Exception
+- User not found → Exception
+- Handled via GlobalExceptionHandler
+
+----------------------------------------
+LOGGING:
+----------------------------------------
+- Login attempts
+- Authentication failures
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Auth Service manages user authentication and generates JWT tokens
+to enable secure, stateless communication across microservices.

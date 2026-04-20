@@ -1,0 +1,89 @@
+========================================
+SERVICE: API GATEWAY
+========================================
+
+PURPOSE:
+Acts as a single entry point for all client requests and enforces centralized security.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Request routing
+- JWT validation
+- Authentication enforcement
+- Request enrichment (user context)
+- Global error handling
+
+----------------------------------------
+FEATURES IMPLEMENTED:
+----------------------------------------
+
+1. JWT VALIDATION
+- Extracts token from Authorization header
+- Validates signature and expiry
+- Rejects invalid requests
+
+2. GLOBAL FILTER
+- Implemented using Spring Cloud Gateway GlobalFilter
+- Intercepts all incoming requests
+- Skips /auth endpoints
+- Applies authentication logic
+
+3. REQUEST ENRICHMENT
+- Adds user email to request header:
+  X-User-Email
+
+4. ROUTING
+- /auth/** → Auth Service
+- /products/** → Product Service
+- /orders/** → Order Service
+
+5. GLOBAL EXCEPTION HANDLING
+- Implemented using ErrorWebExceptionHandler
+- Returns structured error response
+
+6. LOGGING
+- Logs incoming requests
+- Logs authentication status
+- Logs errors
+
+7. REACTIVE ARCHITECTURE
+- Built using Spring WebFlux
+- Non-blocking request processing
+
+----------------------------------------
+SECURITY DESIGN:
+----------------------------------------
+- Stateless authentication
+- Centralized JWT validation
+- No duplication across services
+
+----------------------------------------
+TECH STACK:
+----------------------------------------
+- Spring Cloud Gateway
+- Spring Security
+- WebFlux (Reactive)
+- JWT
+
+----------------------------------------
+REQUEST FLOW:
+----------------------------------------
+1. Client sends request with JWT
+2. Gateway intercepts request
+3. JWT validated
+4. User info extracted
+5. Request forwarded to service
+
+----------------------------------------
+ERROR RESPONSE FORMAT:
+----------------------------------------
+- status: FAILED
+- code: UNAUTHORIZED
+- message: error details
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+API Gateway acts as a centralized security and routing layer,
+validating JWT tokens and forwarding authenticated requests to microservices.

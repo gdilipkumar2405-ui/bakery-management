@@ -1,0 +1,30 @@
+========================================
+SERVICE: TABLE BOOKING SERVICE
+========================================
+
+PURPOSE:
+Allows users to reserve tables in bakery for specific time slots.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Book table
+- Prevent double booking
+- Manage time slots
+- Handle concurrent requests
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: table_booking
+- id
+- user_id
+- table_number
+- slot_time
+- status
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Ensures only one user can book a table per time slot using locks.

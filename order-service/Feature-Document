@@ -1,0 +1,60 @@
+========================================
+SERVICE: ORDER SERVICE
+========================================
+
+PURPOSE:
+Handles order placement using Saga pattern and event-driven architecture.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Place order
+- Validate cart
+- Orchestrate Saga flow
+- Handle success/failure
+- Track order status
+
+----------------------------------------
+FEATURES IMPLEMENTED:
+----------------------------------------
+- Order creation
+- Kafka-based communication
+- Saga orchestration (Orchestrator pattern)
+- Failure rollback handling
+
+----------------------------------------
+INTEGRATION:
+----------------------------------------
+- Cart Service (Feign)
+- Inventory Service (Kafka)
+- Payment Service (Kafka)
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: orders
+- id
+- user_id
+- total_amount
+- status
+- created_at
+
+TABLE: order_item
+- id
+- order_id
+- product_id
+- quantity
+- price
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Order Service orchestrates the entire order lifecycle using
+Saga pattern and Kafka-based event-driven communication.
+
+Full SAGA Flow
+1. Order Service → "order-created"
+2. Inventory Service → "inventory-success" / "inventory-failed"
+3. Payment Service → "payment-success" / "payment-failed"
+4. Order Service → FINAL STATUS UPDATE ✅

@@ -1,0 +1,356 @@
+========================================================
+PROJECT: BAKERY E-COMMERCE PLATFORM
+========================================================
+
+PURPOSE:
+A full-stack, microservices-based bakery application that supports
+online cake ordering, table booking, real-time tracking, and scalable deployment.
+
+--------------------------------------------------------
+ARCHITECTURE STYLE:
+--------------------------------------------------------
+- Microservices Architecture
+- Event-Driven System (Kafka)
+- Saga Pattern (Orchestration)
+- REST + Async Communication
+- Distributed System Design
+
+--------------------------------------------------------
+TECH STACK:
+--------------------------------------------------------
+
+BACKEND:
+- Java 17 (Temurin)
+- Spring Boot 3.5.13
+- Spring Cloud 2024.0.1
+- Spring Security (JWT)
+
+FRONTEND:
+- React (SPA)
+
+DATABASE:
+- MySQL (per service DB)
+
+CACHING:
+- Redis
+
+MESSAGING:
+- Apache Kafka
+
+COMMUNICATION:
+- REST (Feign Client)
+- Async Events (Kafka)
+
+DEPLOYMENT:
+- Docker
+- AWS (ECS / EKS)
+- CI/CD (GitHub Actions / Jenkins)
+
+--------------------------------------------------------
+MICROSERVICES OVERVIEW:
+--------------------------------------------------------
+
+1. API Gateway
+2. Auth Service
+3. Product Service
+4. Cart Service
+5. Order Service
+6. Payment Service
+7. Inventory Service
+8. Review Service
+9. Table Booking Service
+10. Notification Service
+
+--------------------------------------------------------
+SECURITY DESIGN:
+--------------------------------------------------------
+
+- JWT-based Authentication
+- Stateless Sessions
+- Centralized Validation (API Gateway)
+- Role-based Authorization (USER / ADMIN)
+
+FLOW:
+1. User logs in → JWT generated
+2. Client sends JWT in header
+3. Gateway validates token
+4. Request forwarded to services
+
+--------------------------------------------------------
+API GATEWAY:
+--------------------------------------------------------
+
+PURPOSE:
+Single entry point + centralized security
+
+FEATURES:
+- JWT validation
+- Request routing
+- Global filter (WebFlux)
+- Exception handling
+- Logging
+
+--------------------------------------------------------
+AUTH SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Handles authentication and token generation
+
+FEATURES:
+- User registration
+- Login validation
+- JWT generation
+- BCrypt password hashing
+- Role management
+
+DATABASE:
+- users (id, name, email, password, role)
+
+--------------------------------------------------------
+PRODUCT SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Manages bakery products and catalog
+
+FEATURES:
+- Fixed cake flavors (5 types)
+- Get all products
+- Get product by ID
+- Redis caching
+
+CACHE:
+- Product list cache
+- Individual product cache
+
+DATABASE:
+- product (id, name, price, description, available)
+
+--------------------------------------------------------
+CART SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Manages user cart
+
+FEATURES:
+- Add to cart
+- Remove from cart
+- Update quantity
+- Fetch cart items
+
+INTEGRATION:
+- Uses Product Service (Feign)
+
+DATABASE:
+- cart
+- cart_items
+
+--------------------------------------------------------
+ORDER SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Handles order placement and orchestration
+
+FEATURES:
+- Place order
+- Apply coupon
+- Saga orchestration
+- Order tracking
+
+FLOW:
+1. Validate cart
+2. Reserve inventory (Kafka)
+3. Process payment (Kafka)
+4. Confirm order
+
+DATABASE:
+- orders
+- order_items
+
+--------------------------------------------------------
+PAYMENT SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Handles payment processing
+
+FEATURES:
+- Mock payment (Phase 1)
+- Success / Failure simulation
+- Kafka event publishing
+
+DATABASE:
+- payment
+
+--------------------------------------------------------
+INVENTORY SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Manages stock and prevents overselling
+
+FEATURES:
+- Stock tracking
+- Reserved stock handling
+- Concurrency control (locks)
+
+TECH:
+- ReentrantLock
+- Redis lock (future)
+
+DATABASE:
+- inventory (product_id, stock, reserved_stock)
+
+--------------------------------------------------------
+REVIEW SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Manages ratings and feedback
+
+FEATURES:
+- Add review
+- One review per order
+- Rating aggregation
+
+DATABASE:
+- review (user_id, product_id, rating, comment)
+
+--------------------------------------------------------
+TABLE BOOKING SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Handles table reservations in bakery
+
+FEATURES:
+- Slot-based booking
+- Concurrency control
+- Prevent double booking
+
+TECH:
+- ReentrantLock
+- Redis distributed lock
+
+DATABASE:
+- tables
+- table_booking
+
+CONSTRAINT:
+- Unique (table_id + slot_time)
+
+--------------------------------------------------------
+NOTIFICATION SERVICE:
+--------------------------------------------------------
+
+PURPOSE:
+Handles communication with users
+
+FEATURES:
+- Order confirmation
+- Booking confirmation
+- Inventory alerts
+
+TECH:
+- Kafka consumer
+- Async processing
+
+--------------------------------------------------------
+EVENT-DRIVEN ARCHITECTURE:
+--------------------------------------------------------
+
+KAFKA TOPICS:
+- order-created
+- inventory-reserved
+- payment-processed
+- order-confirmed
+- order-failed
+- notification-trigger
+- table-booking-created
+
+--------------------------------------------------------
+SAGA PATTERN (ORDER FLOW):
+--------------------------------------------------------
+
+1. Order Created
+2. Inventory Reserved
+3. Payment Processed
+4. Order Confirmed
+
+FAILURE HANDLING:
+- Payment fail → release inventory
+- Inventory fail → cancel order
+
+--------------------------------------------------------
+REDIS USAGE:
+--------------------------------------------------------
+
+- Product caching
+- Coupon caching
+- Order tracking
+- Table locking (future)
+
+--------------------------------------------------------
+CONCURRENCY DESIGN:
+--------------------------------------------------------
+
+- ReentrantLock → Inventory & Table booking
+- CompletableFuture → Parallel processing
+- ExecutorService → Async notifications
+
+--------------------------------------------------------
+EXCEPTION HANDLING:
+--------------------------------------------------------
+
+- Global exception handlers
+- Custom exceptions:
+  - UnauthorizedException
+  - ResourceNotFoundException
+  - PaymentFailedException
+
+STANDARD RESPONSE:
+- status
+- data
+- error
+
+--------------------------------------------------------
+LOGGING:
+--------------------------------------------------------
+
+- Request logs
+- Error logs
+- Kafka event logs
+- Correlation ID (future)
+
+--------------------------------------------------------
+SCALABILITY DESIGN:
+--------------------------------------------------------
+
+- Stateless services
+- Independent databases
+- Async communication
+- Horizontal scaling (Docker + AWS)
+
+--------------------------------------------------------
+FUTURE ENHANCEMENTS:
+--------------------------------------------------------
+
+- OAuth2 (Spring Authorization Server)
+- WebSocket (real-time tracking)
+- ELK stack (logging)
+- Rate limiting (Gateway)
+- Circuit breaker (Resilience4j)
+- Recommendation engine
+
+--------------------------------------------------------
+SUMMARY:
+--------------------------------------------------------
+
+This system is a production-grade, distributed bakery platform
+built using microservices, event-driven architecture, Saga pattern,
+and modern cloud-native technologies.
+
+========================================================

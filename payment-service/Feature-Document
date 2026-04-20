@@ -1,0 +1,39 @@
+1. Order Service → "order-created"
+2. Inventory Service → reduce stock → "inventory-success"
+3. Payment Service → process payment
+      → "payment-success"
+      → OR "payment-failed"
+4. Order Service updates final status
+
+User selects payment →
+   CREDIT_CARD / UPI / COD →
+      Payment Service →
+         → Save payment
+         → Publish event
+         → Saga continues
+========================================
+SERVICE: PAYMENT SERVICE
+========================================
+
+PURPOSE:
+Handles payment processing in Saga flow.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Process payment
+- Simulate success/failure
+- Publish events to Kafka
+- Trigger order success/failure
+
+----------------------------------------
+FLOW:
+----------------------------------------
+Order Created → Inventory Success → Payment →
+   → Success → Order Confirmed
+   → Failure → Inventory Rollback
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Payment Service finalizes the Saga by confirming or failing the transaction.

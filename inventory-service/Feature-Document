@@ -1,0 +1,38 @@
+========================================
+SERVICE: INVENTORY SERVICE
+========================================
+
+PURPOSE:
+Manages product stock and prevents overselling using concurrency control.
+
+----------------------------------------
+CORE RESPONSIBILITIES:
+----------------------------------------
+- Maintain product stock
+- Reduce stock on order
+- Restore stock on failure (Saga rollback)
+- Prevent race conditions
+
+----------------------------------------
+FEATURES IMPLEMENTED:
+----------------------------------------
+- Stock validation
+- Stock deduction
+- ReentrantLock for concurrency control
+- Kafka consumer (order events)
+- Saga participation
+
+----------------------------------------
+DATABASE:
+----------------------------------------
+
+TABLE: inventory
+- id
+- product_id
+- available_quantity
+
+----------------------------------------
+SUMMARY:
+----------------------------------------
+Inventory Service ensures stock consistency using locks
+and participates in Saga flow via Kafka events.
